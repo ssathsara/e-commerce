@@ -4,10 +4,13 @@ namespace App\Services\Reports;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Enums\ReviewStatus;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\User;
 use App\Support\Money;
+use App\Support\Permissions;
 use Illuminate\Support\Carbon;
 
 /**
@@ -18,15 +21,18 @@ use Illuminate\Support\Carbon;
  */
 class DashboardService
 {
-    public function summary(): array
+    public function summary(User $user): array
     {
+        // Financial figures are only shown to users allowed to see sales reports.
+        $canSeeSales = $user->can(Permissions::VIEW_SALES_REPORTS);
+
         $orderStatusCounts = Order::query()
             ->selectRaw('status, COUNT(*) as aggregate')
             ->groupBy('status')
             ->pluck('aggregate', 'status');
 
         return [
-            'total_revenue' => Money::toMajor((int) Order::query()->revenue()->sum('grand_total')),
+            'total_revenue' => $canSeeSales ? Money::toMajor((int) Order::query()->revenue()->sum('grand_total')) : null,
             'total_orders' => (int) $orderStatusCounts->sum(),
             'total_customers' => User::query()->customers()->count(),
             'total_products' => Product::query()->count(),
@@ -64,8 +70,34 @@ class DashboardService
                     'email' => $user->email,
                     'created_at' => $user->created_at?->toIso8601String(),
                 ]),
-            'sales_chart' => $this->salesChart(30),
+            'sales_chart' => $canSeeSales ? $this->salesChart(30) : null,
         ];
+    }
+
+    /**
+     * Actionable counts for the admin header. Each item is only included when the
+     * user may view the underlying module, so no data leaks through the bell.
+     *
+     * @return list<array{key: string, label: string, count: int, link: string}>
+     */
+    public function notifications(User $user): array
+    {
+        $items = [];
+
+        if ($user->can(Permissions::VIEW_ORDERS)) {
+            $items[] = ['key' => 'pending_orders', 'label' => 'Orders awaiting confirmation', 'count' => Order::query()->where('status', OrderStatus::Pending)->count(), 'link' => '/admin/orders?status=pending'];
+        }
+
+        if ($user->can(Permissions::VIEW_REVIEWS)) {
+            $items[] = ['key' => 'pending_reviews', 'label' => 'Reviews awaiting moderation', 'count' => Review::query()->where('status', ReviewStatus::Pending)->count(), 'link' => '/admin/reviews?status=pending'];
+        }
+
+        if ($user->can(Permissions::VIEW_INVENTORY)) {
+            $items[] = ['key' => 'low_stock', 'label' => 'Products low on stock', 'count' => Product::query()->lowStock()->count(), 'link' => '/admin/inventory?stock=low'];
+            $items[] = ['key' => 'out_of_stock', 'label' => 'Products out of stock', 'count' => Product::query()->outOfStock()->count(), 'link' => '/admin/inventory?stock=out'];
+        }
+
+        return $items;
     }
 
     /**

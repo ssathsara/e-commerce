@@ -17,7 +17,7 @@ class RoleResource extends JsonResource
             'is_system' => RoleName::isSystemRole($this->name),
             'is_super_admin' => $this->name === RoleName::SuperAdmin->value,
             'permissions' => $this->whenLoaded('permissions', fn () => $this->permissions->pluck('name')->sort()->values()),
-            'users_count' => $this->whenCounted('users'),
+            'users_count' => $this->when(isset($this->users_count), fn () => (int) $this->users_count),
             'created_at' => $this->created_at?->toIso8601String(),
         ];
     }

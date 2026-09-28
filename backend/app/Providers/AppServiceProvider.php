@@ -55,8 +55,14 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureRateLimiting(): void
     {
+        // General API budget. A single admin screen issues several requests, so
+        // signed-in users get a higher budget than anonymous clients (keyed by IP).
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(120)->by($request->user()?->id ?: $request->ip());
+            $user = $request->user('sanctum');
+
+            return $user
+                ? Limit::perMinute(300)->by('user:'.$user->id)
+                : Limit::perMinute(120)->by('ip:'.$request->ip());
         });
 
         // Brute-force protection: per email+IP and per IP.

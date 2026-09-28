@@ -121,6 +121,7 @@ Route::middleware('throttle:api')->group(function () use ($can) {
         ->middleware(['auth:sanctum', 'active', $can(P::ACCESS_ADMIN)])
         ->group(function () use ($can) {
             Route::get('dashboard', Admin\DashboardController::class);
+            Route::get('notifications', [Admin\DashboardController::class, 'notifications']);
             Route::get('options', Admin\OptionsController::class);
 
             // Products

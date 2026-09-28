@@ -63,19 +63,19 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function store(UserRequest $request): JsonResponse
+    public function store(CustomerRequest $request): JsonResponse
     {
         $customer = $this->users->create($request->user(), $request->validated(), [RoleName::Customer->value]);
 
         return $this->created(new AdminUserResource($customer->load('roles')), 'Customer created successfully.');
     }
 
-    public function update(UserRequest $request, User $customer): JsonResponse
+    public function update(CustomerRequest $request, User $customer): JsonResponse
     {
         $this->ensureCustomer($customer);
 
         // Roles are not managed from the customers module.
-        $customer = $this->users->update($request->user(), $customer, $request->safe()->except('roles'), null);
+        $customer = $this->users->update($request->user(), $customer, $request->validated(), null);
 
         return $this->success(new AdminUserResource($customer->load('roles')), 'Customer updated successfully.');
     }
