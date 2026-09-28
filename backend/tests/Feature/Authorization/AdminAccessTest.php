@@ -4,6 +4,7 @@ namespace Tests\Feature\Authorization;
 
 use App\Models\User;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /**
@@ -93,7 +94,7 @@ class AdminAccessTest extends TestCase
     public function test_permission_granted_directly_to_custom_role_is_honoured(): void
     {
         $user = User::factory()->create();
-        $role = \Spatie\Permission\Models\Role::create(['name' => 'Catalogue Viewer', 'guard_name' => 'web']);
+        $role = Role::create(['name' => 'Catalogue Viewer', 'guard_name' => 'web']);
         $role->givePermissionTo(['access admin panel', 'view products']);
         $user->assignRole($role);
 

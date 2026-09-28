@@ -9,6 +9,7 @@ use App\Enums\ProductStatus;
 use App\Events\OrderPlaced;
 use App\Models\Coupon;
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -61,7 +62,7 @@ class CheckoutTest extends TestCase
         $this->assertSame($first->json('data.id'), $second->json('data.id'));
         $this->assertSame(1, Order::count());
         $this->assertSame(9, $product->fresh()->stock_quantity);
-        $this->assertSame(1, \App\Models\Payment::count());
+        $this->assertSame(1, Payment::count());
     }
 
     public function test_idempotency_keys_are_scoped_per_customer(): void

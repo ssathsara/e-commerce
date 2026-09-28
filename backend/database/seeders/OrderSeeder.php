@@ -11,6 +11,7 @@ use App\Events\OrderPlaced;
 use App\Events\OrderStatusChanged;
 use App\Events\PaymentSucceeded;
 use App\Exceptions\BusinessRuleException;
+use App\Models\Cart;
 use App\Models\Coupon;
 use App\Models\InventoryMovement;
 use App\Models\Order;
@@ -51,6 +52,9 @@ class OrderSeeder extends Seeder
                 $this->progress($order, $orders, $payments, $admin);
                 $this->backdate($order, now()->subDays(random_int(0, 60))->subMinutes(random_int(0, 1440)));
             }
+
+            // Demo accounts start with empty carts (failed seed attempts may have left items/coupons).
+            Cart::query()->each(fn (Cart $cart) => $carts->clear($cart));
         }, [OrderPlaced::class, OrderStatusChanged::class, PaymentSucceeded::class]);
     }
 

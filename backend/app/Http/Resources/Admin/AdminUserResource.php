@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Models\User;
 use App\Support\Money;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -9,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * User as seen by administrators. Passwords/tokens are never included.
  *
- * @mixin \App\Models\User
+ * @mixin User
  */
 class AdminUserResource extends JsonResource
 {

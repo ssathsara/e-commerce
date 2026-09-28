@@ -104,7 +104,7 @@ class Product extends Model
     }
 
     /* ----------------------------------------------------------------- */
-    /* Domain helpers                                                      */
+    /* Domain helpers */
     /* ----------------------------------------------------------------- */
 
     public function hasVariants(): bool
@@ -136,7 +136,7 @@ class Product extends Model
     }
 
     /* ----------------------------------------------------------------- */
-    /* Scopes                                                              */
+    /* Scopes */
     /* ----------------------------------------------------------------- */
 
     /** Products that may appear on the public storefront. */

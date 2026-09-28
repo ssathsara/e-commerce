@@ -4,6 +4,7 @@ namespace App\Http\Resources\Admin;
 
 use App\Http\Resources\ProductImageResource;
 use App\Http\Resources\ProductVariantResource;
+use App\Models\Product;
 use App\Support\Money;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -11,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Admin representation, including internal fields used by the edit form.
  *
- * @mixin \App\Models\Product
+ * @mixin Product
  */
 class AdminProductResource extends JsonResource
 {

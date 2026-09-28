@@ -5,8 +5,9 @@ namespace App\Http\Resources\Admin;
 use App\Enums\RoleName;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Permission\Models\Role;
 
-/** @mixin \Spatie\Permission\Models\Role */
+/** @mixin Role */
 class RoleResource extends JsonResource
 {
     public function toArray(Request $request): array

@@ -1,0 +1,94 @@
+# Local development stack. Open http://localhost:8080 once all services are up.
+# The first start installs dependencies, migrates and seeds demo data.
+#
+#   docker compose up -d --build
+#   docker compose exec app php artisan test
+#
+# Credentials below are for LOCAL DEVELOPMENT ONLY.
+
+x-laravel-env: &laravel-env
+  APP_ENV: local
+  APP_DEBUG: "true"
+  APP_URL: http://localhost:8080
+  FRONTEND_URL: http://localhost:8080
+  DB_HOST: mysql
+  DB_PORT: "3306"
+  DB_DATABASE: ecommerce
+  DB_USERNAME: ecommerce
+  DB_PASSWORD: ecommerce
+  SANCTUM_STATEFUL_DOMAINS: localhost:8080
+  SESSION_DOMAIN: localhost
+  QUEUE_CONNECTION: database
+  MAIL_MAILER: log
+
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: ecommerce
+      MYSQL_PASSWORD: ecommerce
+      MYSQL_ROOT_PASSWORD: root
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "33060:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      retries: 20
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    environment:
+      <<: *laravel-env
+      RUN_MIGRATIONS: "true"
+      SEED_DEMO_DATA: "true"
+    volumes:
+      - ./backend:/var/www/html
+      - backend-vendor:/var/www/html/vendor
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    command: ["php", "artisan", "queue:work", "--tries=3", "--backoff=10", "--max-time=3600"]
+    environment: *laravel-env
+    volumes:
+      - ./backend:/var/www/html
+      - backend-vendor:/var/www/html/vendor
+    depends_on:
+      - app
+
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm ci && npx vite --host 0.0.0.0 --port 5173"
+    environment:
+      VITE_API_BASE_URL: /api/v1
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./backend:/var/www/html:ro
+    depends_on:
+      - app
+      - frontend
+
+volumes:
+  mysql-data:
+  backend-vendor:
+  frontend-node-modules:

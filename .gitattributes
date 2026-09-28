@@ -1,0 +1,16 @@
+# Normalise line endings in the repository to LF. Shell scripts and config files
+# are executed inside Linux containers, where CRLF endings break them.
+* text=auto eol=lf
+
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.gif  binary
+*.ico  binary
+*.woff binary
+*.woff2 binary

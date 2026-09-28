@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Product;
 use App\Support\Money;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -9,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Compact product representation for grids and lists.
  *
- * @mixin \App\Models\Product
+ * @mixin Product
  */
 class ProductCardResource extends JsonResource
 {

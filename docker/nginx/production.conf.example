@@ -1,0 +1,55 @@
+# Example production server block. The React app is built (npm run build) and its
+# dist/ folder is served as static files; Laravel handles /api and /sanctum.
+# Terminate TLS here (or at a load balancer) and set SESSION_SECURE_COOKIE=true.
+
+server {
+    listen 443 ssl http2;
+    server_name shop.example.com;
+
+    ssl_certificate     /etc/ssl/certs/shop.example.com.crt;
+    ssl_certificate_key /etc/ssl/private/shop.example.com.key;
+
+    client_max_body_size 16m;
+    server_tokens off;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    location ^~ /storage/ {
+        alias /var/www/html/storage/app/public/;
+        expires 30d;
+        location ~ \.php$ { return 404; }
+    }
+
+    location ~ ^/(api|sanctum)(/|$) {
+        root /var/www/html/public;
+        try_files $uri /index.php?$query_string;
+    }
+
+    location = /index.php {
+        root /var/www/html/public;
+        fastcgi_pass app:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+        include fastcgi_params;
+    }
+
+    # React build output; unknown paths fall back to index.html for client routing.
+    location / {
+        root /var/www/frontend/dist;
+        try_files $uri /index.html;
+    }
+
+    location ~* ^/assets/ {
+        root /var/www/frontend/dist;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+
+server {
+    listen 80;
+    server_name shop.example.com;
+    return 301 https://$host$request_uri;
+}

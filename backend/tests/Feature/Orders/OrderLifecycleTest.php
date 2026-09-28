@@ -8,6 +8,7 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\OrderStatusChangedNotification;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -155,11 +156,11 @@ class OrderLifecycleTest extends TestCase
 
     public function test_status_change_event_is_dispatched_after_commit(): void
     {
-        \Illuminate\Support\Facades\Event::fake([OrderStatusChanged::class]);
+        Event::fake([OrderStatusChanged::class]);
         [, $order] = $this->placeOrder();
 
         $this->signIn($this->admin())->patchJson("/api/v1/admin/orders/{$order->id}/status", ['status' => 'processing']);
 
-        \Illuminate\Support\Facades\Event::assertDispatched(OrderStatusChanged::class, fn ($e) => $e->order->id === $order->id && $e->previous->value === 'confirmed');
+        Event::assertDispatched(OrderStatusChanged::class, fn ($e) => $e->order->id === $order->id && $e->previous->value === 'confirmed');
     }
 }

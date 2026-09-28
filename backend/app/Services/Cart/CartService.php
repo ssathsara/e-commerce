@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Services\Checkout\ShippingService;
 use App\Services\Checkout\TotalsCalculator;
 use App\Services\Coupons\CouponService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -328,7 +329,7 @@ class CartService
     {
         if ($item->cart_id !== $cart->id) {
             // Do not reveal whether the item exists in someone else's cart.
-            throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+            throw new ModelNotFoundException;
         }
     }
 

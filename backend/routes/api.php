@@ -31,7 +31,7 @@ $can = fn (string $permission) => 'permission:'.$permission;
 Route::middleware('throttle:api')->group(function () use ($can) {
 
     /* ------------------------------------------------------------------ */
-    /* Public storefront                                                   */
+    /* Public storefront */
     /* ------------------------------------------------------------------ */
 
     Route::get('home', HomeController::class);
@@ -57,7 +57,7 @@ Route::middleware('throttle:api')->group(function () use ($can) {
     });
 
     /* ------------------------------------------------------------------ */
-    /* Authentication                                                      */
+    /* Authentication */
     /* ------------------------------------------------------------------ */
 
     Route::prefix('auth')->controller(AuthController::class)->group(function () {
@@ -80,7 +80,7 @@ Route::middleware('throttle:api')->group(function () use ($can) {
     });
 
     /* ------------------------------------------------------------------ */
-    /* Customer account                                                    */
+    /* Customer account */
     /* ------------------------------------------------------------------ */
 
     Route::middleware(['auth:sanctum', 'active'])->group(function () {
@@ -113,8 +113,8 @@ Route::middleware('throttle:api')->group(function () use ($can) {
     });
 
     /* ------------------------------------------------------------------ */
-    /* Admin portal — every route requires "access admin panel" plus the  */
-    /* specific permission listed.                                         */
+    /* Admin portal — every route requires "access admin panel" plus the */
+    /* specific permission listed. */
     /* ------------------------------------------------------------------ */
 
     Route::prefix('admin')

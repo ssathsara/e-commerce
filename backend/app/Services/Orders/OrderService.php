@@ -41,7 +41,7 @@ class OrderService
             if (! $previous->canTransitionTo($next)) {
                 throw BusinessRuleException::conflict(
                     "Order status cannot change from {$previous->label()} to {$next->label()}.",
-                    ['status' => ["Allowed: ".($this->allowedLabels($previous) ?: 'none').'.']],
+                    ['status' => ['Allowed: '.($this->allowedLabels($previous) ?: 'none').'.']],
                 );
             }
 

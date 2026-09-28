@@ -5,13 +5,14 @@ namespace App\Http\Resources\Admin;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 /**
  * Order representation for the admin portal: adds customer details, internal notes
  * and the status transitions currently allowed (so the UI only offers valid actions).
  *
- * @mixin \App\Models\Order
+ * @mixin Order
  */
 class AdminOrderResource extends OrderResource
 {

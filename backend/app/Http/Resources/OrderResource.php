@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Models\Order;
 use App\Support\Money;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -11,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Customer-facing order representation. AdminOrderResource extends it with internal fields.
  *
- * @mixin \App\Models\Order
+ * @mixin Order
  */
 class OrderResource extends JsonResource
 {

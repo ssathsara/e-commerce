@@ -3,9 +3,10 @@
 namespace App\Http\Resources\Admin;
 
 use App\Http\Resources\ReviewResource;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
-/** @mixin \App\Models\Review */
+/** @mixin Review */
 class AdminReviewResource extends ReviewResource
 {
     public function toArray(Request $request): array

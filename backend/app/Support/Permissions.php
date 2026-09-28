@@ -14,60 +14,93 @@ final class Permissions
     public const ACCESS_ADMIN = 'access admin panel';
 
     public const VIEW_PRODUCTS = 'view products';
+
     public const CREATE_PRODUCTS = 'create products';
+
     public const EDIT_PRODUCTS = 'edit products';
+
     public const DELETE_PRODUCTS = 'delete products';
 
     public const VIEW_CATEGORIES = 'view categories';
+
     public const CREATE_CATEGORIES = 'create categories';
+
     public const EDIT_CATEGORIES = 'edit categories';
+
     public const DELETE_CATEGORIES = 'delete categories';
 
     public const VIEW_BRANDS = 'view brands';
+
     public const CREATE_BRANDS = 'create brands';
+
     public const EDIT_BRANDS = 'edit brands';
+
     public const DELETE_BRANDS = 'delete brands';
 
     public const VIEW_ORDERS = 'view orders';
+
     public const CREATE_ORDERS = 'create orders';
+
     public const EDIT_ORDERS = 'edit orders';
+
     public const UPDATE_ORDERS = 'update orders';
+
     public const CANCEL_ORDERS = 'cancel orders';
 
     public const VIEW_CUSTOMERS = 'view customers';
+
     public const CREATE_CUSTOMERS = 'create customers';
+
     public const EDIT_CUSTOMERS = 'edit customers';
+
     public const DELETE_CUSTOMERS = 'delete customers';
 
     public const VIEW_INVENTORY = 'view inventory';
+
     public const MANAGE_INVENTORY = 'manage inventory';
 
     public const VIEW_REVIEWS = 'view reviews';
+
     public const APPROVE_REVIEWS = 'approve reviews';
+
     public const EDIT_REVIEWS = 'edit reviews';
+
     public const DELETE_REVIEWS = 'delete reviews';
 
     public const VIEW_COUPONS = 'view coupons';
+
     public const CREATE_COUPONS = 'create coupons';
+
     public const EDIT_COUPONS = 'edit coupons';
+
     public const DELETE_COUPONS = 'delete coupons';
 
     public const VIEW_REPORTS = 'view reports';
+
     public const VIEW_SALES_REPORTS = 'view sales reports';
+
     public const VIEW_INVENTORY_REPORTS = 'view inventory reports';
 
     public const VIEW_USERS = 'view users';
+
     public const CREATE_USERS = 'create users';
+
     public const EDIT_USERS = 'edit users';
+
     public const DELETE_USERS = 'delete users';
 
     public const VIEW_ROLES = 'view roles';
+
     public const CREATE_ROLES = 'create roles';
+
     public const EDIT_ROLES = 'edit roles';
+
     public const DELETE_ROLES = 'delete roles';
+
     public const ASSIGN_ROLES = 'assign roles';
 
     public const VIEW_PERMISSIONS = 'view permissions';
+
     public const ASSIGN_PERMISSIONS = 'assign permissions';
 
     /**

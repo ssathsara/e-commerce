@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ProductVariant;
 use App\Support\Money;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -9,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Expects the variant's "product" relation to be set (for price inheritance).
  *
- * @mixin \App\Models\ProductVariant
+ * @mixin ProductVariant
  */
 class ProductVariantResource extends JsonResource
 {
