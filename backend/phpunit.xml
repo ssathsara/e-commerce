@@ -23,12 +23,22 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="ecommerce_testing"/>
         <env name="DB_URL" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <env name="LOG_CHANNEL" value="null"/>
+        <env name="FILESYSTEM_DISK" value="local"/>
+        <env name="SHOP_CURRENCY" value="USD"/>
+        <env name="SHOP_TAX_RATE" value="10"/>
+        <env name="SHOP_FREE_SHIPPING_THRESHOLD" value="100"/>
+        <env name="SHOP_STANDARD_SHIPPING" value="5"/>
+        <env name="SHOP_EXPRESS_SHIPPING" value="15"/>
+        <env name="SHOP_REVIEWS_REQUIRE_PURCHASE" value="true"/>
+        <env name="SHOP_REVIEWS_REQUIRE_APPROVAL" value="true"/>
+        <env name="PAYMENT_GATEWAY" value="mock"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>

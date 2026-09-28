@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\UserRequest;
+use App\Http\Requests\Admin\CustomerRequest;
 use App\Http\Requests\Admin\UserStatusRequest;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\Admin\AdminOrderResource;
